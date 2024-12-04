@@ -10,8 +10,6 @@ import type { Rive } from '@rive-app/canvas';
 const changeHairRef = useTemplateRef<HTMLButtonElement>("change-hair")
 const changeEyesRef = useTemplateRef<HTMLButtonElement>("change-eyes")
 
-import { vConfetti } from '@neoconfetti/vue';
-
 
 function onLoad(riveInstance: Rive) {
   riveInstance.resizeDrawingSurfaceToCanvas();
@@ -41,7 +39,7 @@ function onLoad(riveInstance: Rive) {
 const rives = {
   felixAvatarCreator: {
     params: {
-      src: "/src/assets/riv/felix_avatar_creator.riv",
+      src: "/assets/riv/felix_avatar_creator.riv",
       autoplay: true,
       stateMachines: "State Machine 1",
       animations: [],
@@ -51,7 +49,7 @@ const rives = {
   },
   randomAvatarCreator: {
     params: {
-      src: "/src/assets/riv/random_avatar_creator.riv",
+      src: "/assets/riv/random_avatar_creator.riv",
       autoplay: true,
       stateMachines: "State Machine 1",
       animations: [],
