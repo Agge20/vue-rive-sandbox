@@ -1,4 +1,3 @@
-import { ref } from 'vue'
 import { Rive, StateMachineInput } from '@rive-app/canvas'
 
 /**
@@ -7,29 +6,28 @@ import { Rive, StateMachineInput } from '@rive-app/canvas'
  * @param rive - Rive instance
  * @param stateMachineName - Name of the state machine
  * @param inputName - Name of the input
- * @returns
+ * @returns StateMachineInput | null
  */
 export default function useStateMachineInput(
   rive: Rive,
-  stateMachineName?: string,
-  inputName?: string,
+  stateMachineName: string,
+  inputName: string,
 ) {
-  const input = ref<StateMachineInput | null>(null)
-  console.log('useStateMachineInput: ', stateMachineName, inputName, rive)
+  let input: StateMachineInput | null = null
 
   if (!rive || !stateMachineName || !inputName) {
-    input.value = null
+    input = null
   }
 
   if (rive && stateMachineName && inputName) {
     const inputs = rive.stateMachineInputs(stateMachineName)
     if (inputs) {
       const selectedInput = inputs.find((i) => i.name === inputName)
-      input.value = selectedInput || null
+
+      input = selectedInput || null
     }
   } else {
-    input.value = null
+    input = null
   }
-
   return input
 }

@@ -7,31 +7,30 @@ import { useTemplateRef } from 'vue';
 import type { Rive } from '@rive-app/canvas';
 
 
+import useStateMachineInput from '@/composables/useStateMachinesInput';
+
 const changeHairRef = useTemplateRef<HTMLButtonElement>("change-hair")
 const changeEyesRef = useTemplateRef<HTMLButtonElement>("change-eyes")
 
+function onLoadFelixAvatarCreator(riveInstance: Rive) {
 
-function onLoad(riveInstance: Rive) {
   riveInstance.resizeDrawingSurfaceToCanvas();
+  const eyesNextInput = useStateMachineInput(riveInstance, 'State Machine 1', 'Eyes next');
+  const hairNextInput = useStateMachineInput(riveInstance, 'State Machine 1', 'Hair next');
 
-  // Get the state machine inputs
-  const stateMachineInputs = riveInstance.stateMachineInputs("State Machine 1");
-
-  // Find the input you want to set a value for, or trigger
-  const hairNextTrigger = stateMachineInputs.find((input) => input.name === 'Hair next');
-
-  // Find the input you want to set a value for, or trigger
-  const eyesNextTrigger = stateMachineInputs.find((input) => input.name === 'Eyes next');
-
-  if (changeHairRef.value && hairNextTrigger) {
+  if (changeHairRef.value) {
     changeHairRef.value.onclick = () => {
-      hairNextTrigger.fire()
+      if (hairNextInput) {
+        hairNextInput.fire();
+      }
     };
   }
 
-  if (changeEyesRef.value && eyesNextTrigger) {
+  if (changeEyesRef.value) {
     changeEyesRef.value.onclick = () => {
-      eyesNextTrigger.fire()
+      if (eyesNextInput) {
+        eyesNextInput.fire();
+      }
     };
   }
 }
@@ -76,7 +75,7 @@ const rives = {
     </div>
     <div class="h-[800px] w-full">
       <VRive id="felix-avatar-creator" :rive-params="rives.felixAvatarCreator.params"
-        :options="rives.felixAvatarCreator.options" @riveLoaded="onLoad" />
+        :options="rives.felixAvatarCreator.options" @riveLoaded="onLoadFelixAvatarCreator" />
     </div>
   </div>
 
@@ -84,7 +83,7 @@ const rives = {
     <h2 class="text-lg sm:text-4xl text-white">Random avatar creator</h2>
     <div class="h-[800px] w-full">
       <VRive id="random-avatar-creator" :rive-params="rives.randomAvatarCreator.params"
-        :options="rives.randomAvatarCreator.options" @riveLoaded="onLoad" />
+        :options="rives.randomAvatarCreator.options" />
     </div>
   </div>
 </template>
